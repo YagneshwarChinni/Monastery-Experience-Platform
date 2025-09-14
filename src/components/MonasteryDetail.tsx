@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
@@ -36,6 +36,54 @@ const monasteryData = {
 export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [player, setPlayer] = useState<YT.Player | null>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
+
+  // Load YouTube API and initialize player
+  useEffect(() => {
+    const onYouTubeIframeAPIReady = () => {
+      if (!playerRef.current) return;
+
+      const newPlayer = new YT.Player(playerRef.current, {
+        height: '100%',
+        width: '100%',
+        videoId: 'EwRQkmEXhS4', // ← ONLY THE VIDEO ID — NO SHORTS URL!
+        playerVars: {
+          autoplay: 0,
+          rel: 0,
+          showinfo: 0,
+          modestbranding: 1,
+          controls: 1,
+          loop: 0,
+          playlist: 'EwRQkmEXhS4', // Required for non-embeddable videos
+        },
+        events: {
+          onReady: (event) => {
+            console.log('YouTube player ready');
+          },
+          onError: (event) => {
+            console.error('YouTube error:', event.data);
+          },
+        },
+      });
+
+      setPlayer(newPlayer);
+    };
+
+    // If YouTube API already loaded
+    if (window.YT && window.YT.Player) {
+      onYouTubeIframeAPIReady();
+    } else {
+      // Wait for YouTube API to load
+      window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+    }
+
+    return () => {
+      if (player) {
+        player.destroy();
+      }
+    };
+  }, [player]);
 
   if (!monasteryId || !monasteryData[monasteryId as keyof typeof monasteryData]) {
     return (
@@ -52,7 +100,6 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
 
   const playAudioStory = () => {
     setIsPlayingAudio(true);
-    // Simulate audio playback
     setTimeout(() => setIsPlayingAudio(false), 3000);
   };
 
@@ -235,20 +282,22 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
                 </div>
               )}
 
-              {/* YouTube Shorts Video Embed */}
+              {/* YouTube Shorts Player Using Official API */}
               <div className="mb-6">
                 <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
                   <span>🎥</span> A Glimpse Inside Rumtek Monastery
                 </h4>
-                <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg">
-                  <iframe
-                    src="https://www.youtube.com/shorts/EwRQkmEXhS4"
-                    title="YouTube Shorts: A Glimpse Inside Rumtek Monastery"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full"
-                  ></iframe>
+                <div
+                  ref={playerRef}
+                  className="relative aspect-video rounded-lg overflow-hidden shadow-lg bg-gray-900"
+                >
+                  {/* Loading State */}
+                  <div className="absolute inset-0 flex items-center justify-center text-white">
+                    <div className="text-center">
+                      <div className="text-4xl mb-2">🎬</div>
+                      <p>Loading video...</p>
+                    </div>
+                  </div>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">
                   A short visual journey through Rumtek Monastery — captured in a single take by a visiting monk.
