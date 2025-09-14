@@ -43,7 +43,7 @@ export default function App() {
       case 'home':
         return <LandingPage onNavigate={navigateTo} />;
       case 'explore':
-        return <ExploreMonasteries onNavigate={navigateTo} />; // ✅ Now works!
+        return <ExploreMonasteries onNavigate={navigateTo} />;
       case 'monastery':
         return <MonasteryDetail monasteryId={selectedMonastery} onNavigate={navigateTo} />;
       case 'festivals':
