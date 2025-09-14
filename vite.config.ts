@@ -50,7 +50,8 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    outDir: 'dist',  // Changed from 'build' to 'dist' for Vercel compatibility
+    outDir: 'public', // ✅ FIXED: Changed from 'dist' to 'public' for Vercel compatibility
+    chunkSizeWarningLimit: 1000, // Optional: Increase warning limit to suppress large chunk warnings if desired
   },
   server: {
     port: 3000,
