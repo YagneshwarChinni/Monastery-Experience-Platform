@@ -50,7 +50,7 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    outDir: 'public', // ✅ Correctly set to 'public' — DO NOT CHANGE
+    outDir: 'dist', // ✅ CHANGED FROM 'public' TO 'dist'
     chunkSizeWarningLimit: 1000,
   },
   server: {
