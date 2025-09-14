@@ -39,7 +39,7 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
   const [player, setPlayer] = useState<YT.Player | null>(null);
   const playerRef = useRef<HTMLDivElement>(null);
 
-  // Load YouTube API and initialize player
+  // Initialize YouTube Player when API is ready
   useEffect(() => {
     const onYouTubeIframeAPIReady = () => {
       if (!playerRef.current) return;
@@ -47,7 +47,7 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
       const newPlayer = new YT.Player(playerRef.current, {
         height: '100%',
         width: '100%',
-        videoId: 'EwRQkmEXhS4', // ← ONLY THE VIDEO ID — NO SHORTS URL!
+        videoId: 'EwRQkmEXhS4', // ← ONLY THE VIDEO ID — NO URL!
         playerVars: {
           autoplay: 0,
           rel: 0,
@@ -55,7 +55,7 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
           modestbranding: 1,
           controls: 1,
           loop: 0,
-          playlist: 'EwRQkmEXhS4', // Required for non-embeddable videos
+          playlist: 'EwRQkmEXhS4', // Required for Shorts compatibility
         },
         events: {
           onReady: (event) => {
@@ -70,11 +70,11 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
       setPlayer(newPlayer);
     };
 
-    // If YouTube API already loaded
+    // If API already loaded
     if (window.YT && window.YT.Player) {
       onYouTubeIframeAPIReady();
     } else {
-      // Wait for YouTube API to load
+      // Wait for API to load
       window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     }
 
@@ -282,7 +282,7 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
                 </div>
               )}
 
-              {/* YouTube Shorts Player Using Official API */}
+              {/* ✅ YouTube Shorts Embedded via Official API */}
               <div className="mb-6">
                 <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
                   <span>🎥</span> A Glimpse Inside Rumtek Monastery
