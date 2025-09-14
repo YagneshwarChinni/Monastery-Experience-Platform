@@ -50,8 +50,8 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    outDir: 'public', // ✅ FIXED: Changed from 'dist' to 'public'
-    chunkSizeWarningLimit: 1000, // Optional: Suppress large chunk warnings
+    outDir: 'public', // ✅ THIS MUST BE 'public', NOT 'dist'
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     port: 3000,
