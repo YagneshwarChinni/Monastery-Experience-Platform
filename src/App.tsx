@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navigation } from './components/Navigation';
 import { LandingPage } from './components/LandingPage';
-import { ExploreMonasteries } from './components/ExploreMonasteries';
+import ExploreMonasteries from './components/ExploreMonasteries'; // ✅ NO CURLY BRACES
 import { MonasteryDetail } from './components/MonasteryDetail';
 import { FestivalsEvents } from './components/FestivalsEvents';
 import { CoLiving } from './components/CoLiving';
@@ -43,7 +43,7 @@ export default function App() {
       case 'home':
         return <LandingPage onNavigate={navigateTo} />;
       case 'explore':
-        return <ExploreMonasteries onNavigate={navigateTo} />;
+        return <ExploreMonasteries onNavigate={navigateTo} />; // ✅ Now works!
       case 'monastery':
         return <MonasteryDetail monasteryId={selectedMonastery} onNavigate={navigateTo} />;
       case 'festivals':
