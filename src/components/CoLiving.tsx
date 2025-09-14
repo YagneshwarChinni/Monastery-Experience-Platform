@@ -70,6 +70,54 @@ const workshops = [
   }
 ];
 
+// ✅ NEW: Guides Array
+const guides = [
+  {
+    id: 'monastery-tour',
+    name: 'Sacred Monastery Tour',
+    guide: 'Lama Tenzin',
+    duration: '4 hours',
+    price: '₹1,800',
+    groupSize: 'Up to 6 people',
+    image: 'https://images.unsplash.com/photo-1576155731848-6b0866827201?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb21ldGhpbmcgaW4gc2lra2ltJTIwbW9uYXN0ZXJ5JTIwdG91ciUyMGxhbWF8ZW58MHx8fDE3NTc3MzI4ODN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    description: 'A personalized guided tour through Rumtek and Enchey Monasteries, uncovering hidden histories, rituals, and spiritual symbolism. Includes tea ceremony and monk interaction.',
+    highlights: ['Private access', 'Monk Q&A session', 'Ancient manuscripts viewing']
+  },
+  {
+    id: 'hidden-valleys-hike',
+    name: 'Hidden Valleys Hike',
+    guide: 'Dorji Wangchuk',
+    duration: 'Full day',
+    price: '₹2,500',
+    groupSize: 'Up to 4 people',
+    image: 'https://images.unsplash.com/photo-1506973037872-a4ec16b8e8f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBoaWdoJTIwdHJlazElMjB2YWxsZXklMjBnb29kc3xlbnwxfHx8fDE3NTc3MzI5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    description: 'Explore off-the-beaten-path valleys near Gangtok with a local trekker who knows secret waterfalls, prayer flag trails, and ancestral shrines. Includes packed lunch.',
+    highlights: ['Local lunch included', 'Secret waterfall stop', 'Prayer flag blessings']
+  },
+  {
+    id: 'village-culture-experience',
+    name: 'Village Cultural Immersion',
+    guide: 'Ama Choden',
+    duration: '6 hours',
+    price: '₹2,000',
+    groupSize: 'Up to 8 people',
+    image: 'https://images.unsplash.com/photo-1551145577-29802111273b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjB2aWxsYWdlJTIwY3VsdHVyZXxlbnwxfHx8fDE3NTc3MzI5MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    description: 'Visit a traditional Sikkimese village: learn weaving, help prepare local food, meet artisans, and participate in a family blessing ritual.',
+    highlights: ['Weaving demo', 'Family meal', 'Blessing ceremony']
+  },
+  {
+    id: 'sunrise-sikkim-trek',
+    name: 'Sunrise at Kanchenjunga Viewpoint',
+    guide: 'Tashi Dorje',
+    duration: 'Overnight (12 hours)',
+    price: '₹3,200',
+    groupSize: 'Up to 4 people',
+    image: 'https://images.unsplash.com/photo-1572888292524-28933638547a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBzdW5yaXNlJTIwa2FuY2hlbmp1bmdhJTIwdmlld3BvaW50fGVufDB8fHwxNzU3NzMyOTQzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    description: 'An early morning trek to a breathtaking viewpoint to witness the golden sunrise over Kanchenjunga. Includes warm tea, snacks, and photography tips from a local expert.',
+    highlights: ['Sunrise photography', 'High-altitude tea', 'Star-gazing before dawn']
+  }
+];
+
 const gratitudeNotes = [
   {
     id: 1,
@@ -127,9 +175,10 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
       </div>
 
       <Tabs defaultValue="homestays" className="mb-8">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="homestays">Homestays</TabsTrigger>
           <TabsTrigger value="workshops">Workshops</TabsTrigger>
+          <TabsTrigger value="guides">Guides</TabsTrigger> {/* ✅ NEW TAB */}
           <TabsTrigger value="volunteer">Volunteer</TabsTrigger>
           <TabsTrigger value="community">Community Wall</TabsTrigger>
         </TabsList>
@@ -172,7 +221,10 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                     ))}
                   </div>
                   
-                  <Button className="w-full">
+                  <Button 
+                    className="w-full"
+                    onClick={() => onNavigate('booking')} // Optional: navigate to booking page
+                  >
                     Book Homestay
                   </Button>
                 </CardContent>
@@ -205,8 +257,62 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                     <Badge variant="secondary">Available</Badge>
                   </div>
                   
-                  <Button className="w-full">
+                  <Button 
+                    className="w-full"
+                    onClick={() => onNavigate('booking')}
+                  >
                     Join Workshop
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        {/* ✅ NEW GUIDES TAB CONTENT */}
+        <TabsContent value="guides" className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            {guides.map((guide) => (
+              <Card key={guide.id} className="overflow-hidden">
+                <div className="aspect-video relative">
+                  <ImageWithFallback
+                    src={guide.image}
+                    alt={guide.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-xl mb-2">{guide.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Guided by {guide.guide}
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Duration: {guide.duration}
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Group size: {guide.groupSize}
+                  </p>
+                  
+                  <p className="text-gray-600 mb-4">{guide.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {guide.highlights.map((highlight, index) => (
+                      <Badge key={index} variant="outline" className="text-xs">
+                        {highlight}
+                      </Badge>
+                    ))}
+                  </div>
+                  
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-lg font-semibold text-blue-600">{guide.price}</span>
+                    <Badge variant="secondary">Available</Badge>
+                  </div>
+                  
+                  <Button 
+                    className="w-full"
+                    onClick={() => onNavigate('booking')}
+                  >
+                    Book Guide
                   </Button>
                 </CardContent>
               </Card>
