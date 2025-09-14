@@ -145,7 +145,7 @@ export function Navigation({ currentPage, onNavigate, isAuthenticated, user, onL
               <Button 
                 variant="ghost" 
                 size="sm"
-                className="text-white hover:bg-white/20"
+                className="text-black hover:bg-white/20"
               >
                 ☰
               </Button>
