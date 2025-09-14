@@ -53,6 +53,7 @@ interface ExploreMonasteriesProps {
   onNavigate: (page: string, monasteryId?: string) => void;
 }
 
+// ✅ THIS IS A NAMED EXPORT — NOT DEFAULT
 export function ExploreMonasteries({ onNavigate }: ExploreMonasteriesProps) {
   return (
     <div className="container mx-auto px-4 py-8">
