@@ -31,7 +31,7 @@ const homestays = [
     location: 'Enchey Monastery vicinity',
     price: '₹2,200/night',
     rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1507829585586-61e76f72065c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBtYW51YWwlMjBjb25zdHJ1Y3Rpb258ZW58MHx8fDE3NTc3MzMwNTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://images.unsplash.com/photo-1611426663925-b6ceddb3a4d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBwcmF5ZXIlMjBmbGFncyUyMG1vdW50YWluc3xlbnwxfHx8fDE3NTc3Mjg5MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     amenities: ['Meditation room', 'Organic garden', 'Yoga sessions'],
     description: 'Peaceful retreat offering meditation practices and organic local cuisine.'
   }
@@ -70,57 +70,6 @@ const workshops = [
   }
 ];
 
-const guides = [
-  {
-    id: 'monastery-tour',
-    name: 'Sacred Monastery Tour',
-    guide: 'Lama Tenzin',
-    duration: '4 hours',
-    price: '₹1,800/person',
-    groupSize: 'Up to 6 people',
-    image: 'https://images.unsplash.com/photo-1576155731848-6b0866827201?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb21ldGhpbmcgaW4gc2lraW1cbW9uYXN0ZXJ5JTIwdG91ciUyMGxhbWF8ZW58MHx8fDE3NTc3MzI4ODN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'A personalized guided tour through Rumtek and Enchey Monasteries, uncovering hidden histories, rituals, and spiritual symbolism. Includes tea ceremony and monk interaction.',
-    highlights: ['Private access', 'Monk Q&A session', 'Ancient manuscripts viewing'],
-    featured: false
-  },
-  {
-    id: 'hidden-valleys-hike',
-    name: 'Hidden Valleys Hike',
-    guide: 'Dorji Wangchuk',
-    duration: 'Full day',
-    price: '₹2,500/person',
-    groupSize: 'Up to 4 people',
-    image: 'https://images.unsplash.com/photo-1506973037872-a4ec16b8e8f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBoaWdoJTIwdHJlazElMjB2YWxsZXklMjBnb29kc3xlbnwxfHx8fDE3NTc3MzI5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'Explore off-the-beaten-path valleys near Gangtok with a local trekker who knows secret waterfalls, prayer flag trails, and ancestral shrines. Includes packed lunch.',
-    highlights: ['Local lunch included', 'Secret waterfall stop', 'Prayer flag blessings'],
-    featured: true
-  },
-  {
-    id: 'village-culture-experience',
-    name: 'Village Cultural Immersion',
-    guide: 'Ama Choden',
-    duration: '6 hours',
-    price: '₹2,000/person',
-    groupSize: 'Up to 8 people',
-    image: 'https://images.unsplash.com/photo-1551145577-29802111273b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjB2aWxsYWdlJTIwY3VsdHVyZXxlbnwxfHx8fDE3NTc3MzI5MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'Visit a traditional Sikkimese village: learn weaving, help prepare local food, meet artisans, and participate in a family blessing ritual.',
-    highlights: ['Weaving demo', 'Family meal', 'Blessing ceremony'],
-    featured: false
-  },
-  {
-    id: 'sunrise-sikkim-trek',
-    name: 'Sunrise at Kanchenjunga Viewpoint',
-    guide: 'Tashi Dorje',
-    duration: 'Overnight (12 hours)',
-    price: '₹3,200/person',
-    groupSize: 'Up to 4 people',
-    image: 'https://images.unsplash.com/photo-1572888292524-28933638547a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBzdW5yaXNlJTIwa2FuY2hlbmp1bmdhJTIwdmlld3BvaW50fGVufDB8fHwxNzU3NzMyOTQzfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'An early morning trek to a breathtaking viewpoint to witness the golden sunrise over Kanchenjunga. Includes warm tea, snacks, and photography tips from a local expert.',
-    highlights: ['Sunrise photography', 'High-altitude tea', 'Star-gazing before dawn'],
-    featured: false
-  }
-];
-
 const gratitudeNotes = [
   {
     id: 1,
@@ -153,7 +102,6 @@ const gratitudeNotes = [
 export function CoLiving({ onNavigate }: CoLivingProps) {
   const [newNote, setNewNote] = useState('');
   const [notes, setNotes] = useState(gratitudeNotes);
-  const [isBooking, setIsBooking] = useState<string | null>(null);
 
   const postGratitudeNote = () => {
     if (newNote.trim()) {
@@ -169,12 +117,6 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
     }
   };
 
-  const handleBook = (itemType: string, id: string) => {
-    setIsBooking(id);
-    onNavigate('booking');
-    setTimeout(() => setIsBooking(null), 2000);
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -184,22 +126,14 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
         </p>
       </div>
 
-      {/* ✅ FULLY FIXED TABS — GUIDES NOW SHOWS */}
-      <Tabs 
-        defaultValue="homestays" 
-        className="mb-8"
-        // Uncomment below for debugging:
-        // onValueChange={(value) => console.log("Active Tab:", value)}
-      >
-        <TabsList className="grid w-full grid-cols-5">
+      <Tabs defaultValue="homestays" className="mb-8">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="homestays">Homestays</TabsTrigger>
           <TabsTrigger value="workshops">Workshops</TabsTrigger>
-          <TabsTrigger value="guides">Guides</TabsTrigger> {/* ✅ Correct value */}
           <TabsTrigger value="volunteer">Volunteer</TabsTrigger>
           <TabsTrigger value="community">Community Wall</TabsTrigger>
         </TabsList>
 
-        {/* Homestays */}
         <TabsContent value="homestays" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             {homestays.map((homestay) => (
@@ -207,10 +141,10 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                 <div className="aspect-video relative">
                   <ImageWithFallback
                     src={homestay.image}
-                    alt={`${homestay.name} by ${homestay.host}`}
+                    alt={homestay.name}
                     className="w-full h-full object-cover"
                   />
-                  <Badge className="absolute top-2 right-2 bg-green-100 text-green-800">
+                  <Badge className="absolute top-2 right-2 bg-white/90 text-gray-800">
                     ⭐ {homestay.rating}
                   </Badge>
                 </div>
@@ -238,12 +172,8 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                     ))}
                   </div>
                   
-                  <Button 
-                    className="w-full"
-                    onClick={() => handleBook('homestay', homestay.id)}
-                    disabled={isBooking === homestay.id}
-                  >
-                    {isBooking === homestay.id ? 'Booking...' : 'Book Homestay'}
+                  <Button className="w-full">
+                    Book Homestay
                   </Button>
                 </CardContent>
               </Card>
@@ -251,7 +181,6 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* Workshops */}
         <TabsContent value="workshops" className="space-y-6">
           <div className="grid md:grid-cols-3 gap-6">
             {workshops.map((workshop) => (
@@ -276,12 +205,8 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                     <Badge variant="secondary">Available</Badge>
                   </div>
                   
-                  <Button 
-                    className="w-full"
-                    onClick={() => handleBook('workshop', workshop.id)}
-                    disabled={isBooking === workshop.id}
-                  >
-                    {isBooking === workshop.id ? 'Booking...' : 'Join Workshop'}
+                  <Button className="w-full">
+                    Join Workshop
                   </Button>
                 </CardContent>
               </Card>
@@ -289,65 +214,6 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* ✅ GUIDES TAB — CORRECTLY RENDERED */}
-        <TabsContent value="guides" className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            {guides.map((guide) => (
-              <Card key={guide.id} className="overflow-hidden">
-                <div className="aspect-video relative">
-                  <ImageWithFallback
-                    src={guide.image}
-                    alt={`${guide.name} guided by ${guide.guide}`}
-                    className="w-full h-full object-cover"
-                  />
-                  {guide.featured && (
-                    <Badge className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1">
-                      Featured
-                    </Badge>
-                  )}
-                </div>
-                
-                <CardContent className="p-6">
-                  <h3 className="text-xl mb-2">{guide.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Guided by {guide.guide}
-                  </p>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Duration: {guide.duration}
-                  </p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Group size: {guide.groupSize}
-                  </p>
-                  
-                  <p className="text-gray-600 mb-4 line-clamp-3">{guide.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {guide.highlights.map((highlight, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {highlight}
-                      </Badge>
-                    ))}
-                  </div>
-                  
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-lg font-semibold text-blue-600">{guide.price}</span>
-                    <Badge variant="secondary">Available</Badge>
-                  </div>
-                  
-                  <Button 
-                    className="w-full"
-                    onClick={() => handleBook('guide', guide.id)}
-                    disabled={isBooking === guide.id}
-                  >
-                    {isBooking === guide.id ? 'Booking...' : 'Book Guide'}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        {/* Volunteer */}
         <TabsContent value="volunteer" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
@@ -412,7 +278,6 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* Community Wall */}
         <TabsContent value="community" className="space-y-6">
           <Card>
             <CardHeader>
