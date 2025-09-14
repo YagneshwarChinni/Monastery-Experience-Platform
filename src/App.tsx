@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navigation } from './components/Navigation';
 import { LandingPage } from './components/LandingPage';
-import ExploreMonasteries from './components/ExploreMonasteries'; // ✅ NO CURLY BRACES
+import { ExploreMonasteries } from './components/ExploreMonasteries';
 import { MonasteryDetail } from './components/MonasteryDetail';
 import { FestivalsEvents } from './components/FestivalsEvents';
 import { CoLiving } from './components/CoLiving';
