@@ -1,116 +1,163 @@
-// src/components/ExploreMonasteries.tsx
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
+import { Card, CardContent } from './ui/card';
+import { Input } from './ui/input';
 import { Badge } from './ui/badge';
-import { MapPin, Calendar, Users } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Page } from '../App';
 
-interface Monastery {
-  id: string;
-  name: string;
-  location: string;
-  description: string;
-  image: string;
-  duration: string;
-  visitors: number;
-  rating: number;
+interface ExploreMonasteriesProps {
+  onNavigate: (page: Page, monasteryId?: string) => void;
 }
 
-const mockMonasteries: Monastery[] = [
+const monasteries = [
   {
     id: 'rumtek',
     name: 'Rumtek Monastery',
-    location: 'Dzongu, Sikkim',
-    description: 'The largest monastery in Sikkim and seat of the Karmapa Lama. A center of Tibetan Buddhist learning.',
-    image: 'https://images.unsplash.com/photo-1576155731848-6b0866827201?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb21ldGhpbmcgaW4gc2lraW1cbW9uYXN0ZXJ5JTIwdG91ciUyMGxhbWF8ZW58MHx8fDE3NTc3MzI4ODN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    duration: '3 hours',
-    visitors: 1200,
-    rating: 4.9,
+    location: 'Gangtok, East Sikkim',
+    description: 'The largest monastery in Sikkim, known as the Dharma Chakra Centre',
+    image: 'https://images.unsplash.com/photo-1731425281764-9f8e1c4aa2ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxydW10ZWslMjBtb25hc3RlcnklMjBzaWtraW0lMjB0aWJldHxlbnwxfHx8fDE3NTc3Mjg5MzF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    tradition: 'Kagyu',
+    established: '1966',
+    coordinates: { lat: 27.3389, lng: 88.5753 }
   },
   {
     id: 'enchey',
     name: 'Enchey Monastery',
-    location: 'Gangtok',
-    description: 'A serene Nyingma monastery perched on a hilltop with stunning views and ancient thangka paintings.',
-    image: 'https://images.unsplash.com/photo-1507829585586-61e76f72065c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBtYW51YWwlMjBjb25zdHJ1Y3Rpb258ZW58MHx8fDE3NTc3MzMwNTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    duration: '2 hours',
-    visitors: 850,
-    rating: 4.8,
+    location: 'Gangtok, East Sikkim',
+    description: 'One of the most important monasteries in Sikkim with a 200-year history',
+    image: 'https://images.unsplash.com/photo-1611426663925-b6ceddb3a4d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBwcmF5ZXIlMjBmbGFncyUyMG1vdW50YWluc3xlbnwxfHx8fDE3NTc3Mjg5MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    tradition: 'Nyingma',
+    established: '1840',
+    coordinates: { lat: 27.3353, lng: 88.6140 }
   },
   {
-    id: 'pemayangtse',
-    name: 'Pemayangtse Monastery',
-    location: 'Pelling',
-    description: 'One of the oldest and most sacred monasteries in Sikkim, founded in 1705, known for its intricate wood carvings.',
-    image: 'https://images.unsplash.com/photo-1551145577-29802111273b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjB2aWxsYWdlJTIwY3VsdHVyZXxlbnwxfHx8fDE3NTc3MzI5MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    duration: '4 hours',
-    visitors: 920,
-    rating: 4.7,
-  },
+    id: 'tashiding',
+    name: 'Tashiding Monastery',
+    location: 'West Sikkim',
+    description: 'Sacred monastery built on a heart-shaped hill between holy rivers',
+    image: 'https://images.unsplash.com/photo-1611426663925-b6ceddb3a4d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBwcmF5ZXIlMjBmbGFncyUyMG1vdW50YWluc3xlbnwxfHx8fDE3NTc3Mjg5MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    tradition: 'Nyingma',
+    established: '1641',
+    coordinates: { lat: 27.3433, lng: 88.2367 }
+  }
 ];
 
-interface ExploreMonasteriesProps {
-  onNavigate: (page: string, monasteryId?: string) => void;
-}
-
-// ✅ THIS IS A NAMED EXPORT — NOT DEFAULT
 export function ExploreMonasteries({ onNavigate }: ExploreMonasteriesProps) {
+  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredMonasteries = monasteries.filter(monastery =>
+    monastery.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    monastery.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    monastery.tradition.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">Explore Sacred Monasteries</h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Discover the spiritual heart of Sikkim through its ancient monasteries — each a sanctuary of peace, art, and devotion.
+      <div className="mb-8">
+        <h1 className="text-4xl mb-4">Explore Sacred Monasteries</h1>
+        <p className="text-muted-foreground text-lg">
+          Discover the spiritual heritage of Sikkim through its ancient monasteries
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {mockMonasteries.map((monastery) => (
-          <Card key={monastery.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-            <div className="aspect-video relative">
-              <img
-                src={monastery.image}
-                alt={monastery.name}
-                className="w-full h-full object-cover"
-              />
-              <Badge className="absolute top-3 right-3 bg-yellow-500 text-white">
-                ⭐ {monastery.rating}
-              </Badge>
-            </div>
-
-            <CardContent className="p-6">
-              <CardTitle className="text-xl font-semibold text-gray-800 mb-2">
-                {monastery.name}
-              </CardTitle>
-              <div className="flex items-center text-sm text-gray-600 mb-3">
-                <MapPin className="w-4 h-4 mr-1" />
-                {monastery.location}
-              </div>
-              <p className="text-gray-700 text-sm mb-4 line-clamp-3">
-                {monastery.description}
-              </p>
-
-              <div className="flex justify-between text-xs text-gray-500 mb-4">
-                <div className="flex items-center">
-                  <Calendar className="w-3 h-3 mr-1" />
-                  {monastery.duration}
-                </div>
-                <div className="flex items-center">
-                  <Users className="w-3 h-3 mr-1" />
-                  {monastery.visitors} visitors
-                </div>
-              </div>
-
-              <Button
-                onClick={() => onNavigate('monastery', monastery.id)}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                View Details
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Search and View Controls */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <div className="flex-1">
+          <Input
+            placeholder="Search monasteries by name, location, or tradition..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full"
+          />
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant={viewMode === 'grid' ? 'default' : 'outline'}
+            onClick={() => setViewMode('grid')}
+          >
+            📋 Grid View
+          </Button>
+          <Button
+            variant={viewMode === 'map' ? 'default' : 'outline'}
+            onClick={() => setViewMode('map')}
+          >
+            🗺️ Map View
+          </Button>
+        </div>
       </div>
+
+      {viewMode === 'map' ? (
+        /* Map View */
+        <div className="bg-gray-100 rounded-lg p-8 mb-8 min-h-[400px] flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🗺️</div>
+            <p className="text-xl mb-2">Interactive Map Coming Soon</p>
+            <p className="text-muted-foreground">
+              Google Maps integration with monastery locations and quick info
+            </p>
+            <div className="mt-6 space-y-2">
+              {filteredMonasteries.map((monastery) => (
+                <div key={monastery.id} className="flex items-center justify-between bg-white p-3 rounded-lg">
+                  <div>
+                    <span className="font-medium">{monastery.name}</span>
+                    <span className="text-sm text-muted-foreground ml-2">
+                      📍 {monastery.coordinates.lat}, {monastery.coordinates.lng}
+                    </span>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    onClick={() => onNavigate('monastery', monastery.id)}
+                  >
+                    Visit
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Grid View */
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredMonasteries.map((monastery) => (
+            <Card key={monastery.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+              <div className="aspect-video relative">
+                <ImageWithFallback
+                  src={monastery.image}
+                  alt={monastery.name}
+                  className="w-full h-full object-cover"
+                />
+                <Badge className="absolute top-2 right-2 bg-white/90 text-gray-800">
+                  {monastery.tradition}
+                </Badge>
+              </div>
+              
+              <CardContent className="p-6">
+                <h3 className="text-xl mb-2">{monastery.name}</h3>
+                <p className="text-sm text-muted-foreground mb-2">📍 {monastery.location}</p>
+                <p className="text-sm text-muted-foreground mb-4">🏛️ Est. {monastery.established}</p>
+                <p className="text-gray-600 mb-4 line-clamp-2">{monastery.description}</p>
+                
+                <Button 
+                  className="w-full" 
+                  onClick={() => onNavigate('monastery', monastery.id)}
+                >
+                  Explore Monastery
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {filteredMonasteries.length === 0 && (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">🔍</div>
+          <p className="text-xl mb-2">No monasteries found</p>
+          <p className="text-muted-foreground">Try adjusting your search terms</p>
+        </div>
+      )}
     </div>
   );
 }
