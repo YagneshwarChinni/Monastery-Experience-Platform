@@ -26,7 +26,7 @@ const monasteries = [
     name: 'Enchey Monastery',
     location: 'Gangtok, East Sikkim',
     description: 'One of the most important monasteries in Sikkim with a 200-year history',
-    image: 'https://images.unsplash.com/photo-1611426663925-b6ceddb3a4d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBwcmF5ZXIlMjBmbGFncyUyMG1vdW50YWluc3xlbnwxfHx8fDE3NTc3Mjg5MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: 'https://images.unsplash.com/photo-1719154717559-c0952814e8c1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     tradition: 'Nyingma',
     established: '1840',
     coordinates: { lat: 27.3353, lng: 88.6140 }
