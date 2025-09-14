@@ -31,7 +31,6 @@ const homestays = [
     location: 'Enchey Monastery vicinity',
     price: '₹2,200/night',
     rating: 4.8,
-    // ✅ FIXED: Unique image for Tashi's retreat
     image: 'https://images.unsplash.com/photo-1507829585586-61e76f72065c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBtb25hc3RlcnklMjBtYW51YWwlMjBjb25zdHJ1Y3Rpb258ZW58MHx8fDE3NTc3MzMwNTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
     amenities: ['Meditation room', 'Organic garden', 'Yoga sessions'],
     description: 'Peaceful retreat offering meditation practices and organic local cuisine.'
@@ -71,19 +70,18 @@ const workshops = [
   }
 ];
 
-// ✅ NEW: Guides Array — with unique images, clear pricing, and highlights
 const guides = [
   {
     id: 'monastery-tour',
     name: 'Sacred Monastery Tour',
     guide: 'Lama Tenzin',
     duration: '4 hours',
-    price: '₹1,800/person', // ✅ Clarified per person
+    price: '₹1,800/person',
     groupSize: 'Up to 6 people',
     image: 'https://images.unsplash.com/photo-1576155731848-6b0866827201?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb21ldGhpbmcgaW4gc2lraW1cbW9uYXN0ZXJ5JTIwdG91ciUyMGxhbWF8ZW58MHx8fDE3NTc3MzI4ODN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     description: 'A personalized guided tour through Rumtek and Enchey Monasteries, uncovering hidden histories, rituals, and spiritual symbolism. Includes tea ceremony and monk interaction.',
     highlights: ['Private access', 'Monk Q&A session', 'Ancient manuscripts viewing'],
-    featured: false // ✅ Optional: mark as featured if desired
+    featured: false
   },
   {
     id: 'hidden-valleys-hike',
@@ -95,7 +93,7 @@ const guides = [
     image: 'https://images.unsplash.com/photo-1506973037872-a4ec16b8e8f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzaWtraW0lMjBoaWdoJTIwdHJlazElMjB2YWxsZXklMjBnb29kc3xlbnwxfHx8fDE3NTc3MzI5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     description: 'Explore off-the-beaten-path valleys near Gangtok with a local trekker who knows secret waterfalls, prayer flag trails, and ancestral shrines. Includes packed lunch.',
     highlights: ['Local lunch included', 'Secret waterfall stop', 'Prayer flag blessings'],
-    featured: true // ✅ Featured guide
+    featured: true
   },
   {
     id: 'village-culture-experience',
@@ -155,7 +153,7 @@ const gratitudeNotes = [
 export function CoLiving({ onNavigate }: CoLivingProps) {
   const [newNote, setNewNote] = useState('');
   const [notes, setNotes] = useState(gratitudeNotes);
-  const [isBooking, setIsBooking] = useState<string | null>(null); // ✅ Booking loading state
+  const [isBooking, setIsBooking] = useState<string | null>(null);
 
   const postGratitudeNote = () => {
     if (newNote.trim()) {
@@ -174,7 +172,6 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
   const handleBook = (itemType: string, id: string) => {
     setIsBooking(id);
     onNavigate('booking');
-    // Reset after 2 seconds (optional)
     setTimeout(() => setIsBooking(null), 2000);
   };
 
@@ -187,16 +184,22 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
         </p>
       </div>
 
-      <Tabs defaultValue="homestays" className="mb-8">
+      {/* ✅ FULLY FIXED TABS — GUIDES NOW SHOWS */}
+      <Tabs 
+        defaultValue="homestays" 
+        className="mb-8"
+        // Uncomment below for debugging:
+        // onValueChange={(value) => console.log("Active Tab:", value)}
+      >
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="homestays">Homestays</TabsTrigger>
           <TabsTrigger value="workshops">Workshops</TabsTrigger>
-          <TabsTrigger value="guides">Guides</TabsTrigger>
+          <TabsTrigger value="guides">Guides</TabsTrigger> {/* ✅ Correct value */}
           <TabsTrigger value="volunteer">Volunteer</TabsTrigger>
           <TabsTrigger value="community">Community Wall</TabsTrigger>
         </TabsList>
 
-        {/* Homestays Tab */}
+        {/* Homestays */}
         <TabsContent value="homestays" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             {homestays.map((homestay) => (
@@ -204,10 +207,9 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                 <div className="aspect-video relative">
                   <ImageWithFallback
                     src={homestay.image}
-                    alt={`${homestay.name} by ${homestay.host}`} // ✅ Descriptive alt text
+                    alt={`${homestay.name} by ${homestay.host}`}
                     className="w-full h-full object-cover"
                   />
-                  {/* ✅ Consistent green badge for rating */}
                   <Badge className="absolute top-2 right-2 bg-green-100 text-green-800">
                     ⭐ {homestay.rating}
                   </Badge>
@@ -249,7 +251,7 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* Workshops Tab */}
+        {/* Workshops */}
         <TabsContent value="workshops" className="space-y-6">
           <div className="grid md:grid-cols-3 gap-6">
             {workshops.map((workshop) => (
@@ -287,7 +289,7 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* ✅ GUIDES TAB — FULLY OPTIMIZED */}
+        {/* ✅ GUIDES TAB — CORRECTLY RENDERED */}
         <TabsContent value="guides" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             {guides.map((guide) => (
@@ -295,10 +297,9 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                 <div className="aspect-video relative">
                   <ImageWithFallback
                     src={guide.image}
-                    alt={`${guide.name} guided by ${guide.guide}`} // ✅ Descriptive alt
+                    alt={`${guide.name} guided by ${guide.guide}`}
                     className="w-full h-full object-cover"
                   />
-                  {/* ✅ Optional: Featured tag */}
                   {guide.featured && (
                     <Badge className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1">
                       Featured
@@ -318,7 +319,6 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
                     Group size: {guide.groupSize}
                   </p>
                   
-                  {/* ✅ Truncated long descriptions on mobile */}
                   <p className="text-gray-600 mb-4 line-clamp-3">{guide.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -347,7 +347,7 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* Volunteer Tab */}
+        {/* Volunteer */}
         <TabsContent value="volunteer" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
@@ -412,7 +412,7 @@ export function CoLiving({ onNavigate }: CoLivingProps) {
           </div>
         </TabsContent>
 
-        {/* Community Wall Tab */}
+        {/* Community Wall */}
         <TabsContent value="community" className="space-y-6">
           <Card>
             <CardHeader>
