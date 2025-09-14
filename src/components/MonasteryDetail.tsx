@@ -206,7 +206,7 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
               <CardTitle>Sacred Stories & Legends</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-amber-50 p-6 rounded-lg mb-4">
+              <div className="bg-amber-50 p-6 rounded-lg mb-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
                     🧘‍♂️
@@ -225,15 +225,35 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
                   {isPlayingAudio ? '🔊 Playing...' : '🎧 Listen to Sacred Story'}
                 </Button>
               </div>
-              
+
               {isPlayingAudio && (
-                <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="bg-blue-50 p-4 rounded-lg mb-6">
                   <p className="text-sm text-blue-800">
                     🎵 "Om Mani Padme Hum... Welcome, dear visitor, to our sacred home. 
                     Let me tell you the story of how this monastery came to be..."
                   </p>
                 </div>
               )}
+
+              {/* YouTube Shorts Video Embed */}
+              <div className="mb-6">
+                <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                  <span>🎥</span> A Glimpse Inside Rumtek Monastery
+                </h4>
+                <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg">
+                  <iframe
+                    src="https://www.youtube.com/shorts/EwRQkmEXhS4"
+                    title="YouTube Shorts: A Glimpse Inside Rumtek Monastery"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">
+                  A short visual journey through Rumtek Monastery — captured in a single take by a visiting monk.
+                </p>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
