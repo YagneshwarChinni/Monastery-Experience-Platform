@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
@@ -36,54 +36,6 @@ const monasteryData = {
 export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [player, setPlayer] = useState<YT.Player | null>(null);
-  const playerRef = useRef<HTMLDivElement>(null);
-
-  // Initialize YouTube Player when API is ready
-  useEffect(() => {
-    const onYouTubeIframeAPIReady = () => {
-      if (!playerRef.current) return;
-
-      const newPlayer = new YT.Player(playerRef.current, {
-        height: '100%',
-        width: '100%',
-        videoId: 'EwRQkmEXhS4', // ← ONLY THE VIDEO ID — NO URL!
-        playerVars: {
-          autoplay: 0,
-          rel: 0,
-          showinfo: 0,
-          modestbranding: 1,
-          controls: 1,
-          loop: 0,
-          playlist: 'EwRQkmEXhS4', // Required for Shorts compatibility
-        },
-        events: {
-          onReady: (event) => {
-            console.log('YouTube player ready');
-          },
-          onError: (event) => {
-            console.error('YouTube error:', event.data);
-          },
-        },
-      });
-
-      setPlayer(newPlayer);
-    };
-
-    // If API already loaded
-    if (window.YT && window.YT.Player) {
-      onYouTubeIframeAPIReady();
-    } else {
-      // Wait for API to load
-      window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-    }
-
-    return () => {
-      if (player) {
-        player.destroy();
-      }
-    };
-  }, [player]);
 
   if (!monasteryId || !monasteryData[monasteryId as keyof typeof monasteryData]) {
     return (
@@ -100,6 +52,7 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
 
   const playAudioStory = () => {
     setIsPlayingAudio(true);
+    // Simulate audio playback
     setTimeout(() => setIsPlayingAudio(false), 3000);
   };
 
@@ -282,23 +235,42 @@ export function MonasteryDetail({ monasteryId, onNavigate }: MonasteryDetailProp
                 </div>
               )}
 
-              {/* ✅ YouTube Shorts Embedded via Official API */}
+              {/* ✅ RELIABLE YOUTUBE SHORTS SOLUTION — NO EMBEDDING ISSUES */}
               <div className="mb-6">
                 <h4 className="text-xl font-semibold mb-3 flex items-center gap-2">
                   <span>🎥</span> A Glimpse Inside Rumtek Monastery
                 </h4>
-                <div
-                  ref={playerRef}
-                  className="relative aspect-video rounded-lg overflow-hidden shadow-lg bg-gray-900"
-                >
-                  {/* Loading State */}
-                  <div className="absolute inset-0 flex items-center justify-center text-white">
-                    <div className="text-center">
-                      <div className="text-4xl mb-2">🎬</div>
-                      <p>Loading video...</p>
+                
+                {/* Thumbnail Preview */}
+                <div className="relative aspect-[9/16] rounded-lg overflow-hidden shadow-md mb-4">
+                  <img
+                    src="https://i.ytimg.com/vi/EwRQkmEXhS4/hqdefault.jpg"
+                    alt="Rumtek Monastery Short Video Thumbnail"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-red-600 text-2xl font-bold">
+                      ▶
                     </div>
                   </div>
                 </div>
+
+                {/* Link Button */}
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full"
+                >
+                  <a
+                    href="https://youtube.com/shorts/EwRQkmEXhS4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span>🎥 Watch on YouTube</span>
+                  </a>
+                </Button>
+
                 <p className="text-sm text-muted-foreground mt-2">
                   A short visual journey through Rumtek Monastery — captured in a single take by a visiting monk.
                 </p>
